@@ -3,7 +3,9 @@ package com.example.projectr1.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
 
 import com.example.projectr1.model.Login;
 import com.example.projectr1.repository.LoginRepo;
@@ -48,5 +50,29 @@ public boolean deleteuser(int id)
             lr.deleteById(id);
             return true;
         }
+
+//pagination and sorting
+public List<Login> getsort(int pageNumber,int pageSize,String field)
+{          return lr.findAll(PageRequest.of(pageNumber, pageSize)
+      .withSort(Sort.by(Sort.Direction.ASC,field))).getContent();
+}
+public List<Login> sort(String field)
+    {
+        Sort sort=Sort.by(Sort.Direction.ASC,field);
+        return lr.findAll(sort);
+    }
+
+
+ //SELECT QUERY FUNCTION 
+ public List <Login> getDetailsbyStatus(){
+    return lr.findByStatus();
+}
+
+
+    // //DELETE QUERY FUNCTION 
+    // public Integer deletepatientdetails(int patientId){
+	// 	return lr.deletepatientInfo(patientId);
+	// }
+
     
 }

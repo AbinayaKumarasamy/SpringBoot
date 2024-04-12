@@ -12,14 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.projectr1.model.Login;
+import com.example.projectr1.model.Patient;
 import com.example.projectr1.service.LoginService;
-
-
-
-
-
 @RestController
 public class LoginController {
     @Autowired
@@ -51,7 +46,7 @@ public class LoginController {
         
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
-@DeleteMapping("/deletedetails/{patientId}")
+    @DeleteMapping("/deletedetails/{patientId}")
     public ResponseEntity<Boolean> delete(@PathVariable("patientId") int id)
     {
         if(ms.deleteuser(id) == true)
@@ -60,4 +55,31 @@ public class LoginController {
         }
         return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
     }
+
+    //pagination and sorting 
+    
+    @GetMapping("/api/patient/{offset}/{pagesize}/{field}")
+    public List<Login> getsorting(@PathVariable int offset,@PathVariable int pagesize,@PathVariable String field)
+    {
+        return ms.getsort(offset,pagesize,field);
+    }
+    @GetMapping("/api/patient/sortBy/{field}")
+    public List<Login> g(@PathVariable String field)
+    {
+        return ms.sort(field);
+    }
+    // SELECT QUERY METHOD
+
+    @GetMapping("/status")
+    public List<Login> getDetailsbyStatus() {
+        return ms.getDetailsbyStatus();
+    }
+
+    // //DELETE QUERY METHOD
+    // @DeleteMapping("/delete/query/{email}")
+	// public String deletepatientInfo(@PathVariable int patientId){
+	// 	return ms.deletepatientInfo(patientId)+" Deleted";
+	// }
+
+
 }

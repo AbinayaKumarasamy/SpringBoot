@@ -1,7 +1,10 @@
 package com.example.projectr1.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Login {
@@ -55,6 +58,9 @@ public class Login {
     }
     public Login() {
     }
+    @OneToOne
+    @JsonBackReference
+    private Patient patient;
     
     
 }
